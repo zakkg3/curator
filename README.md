@@ -1,17 +1,23 @@
 # Elasticsearch Curator
 
+Here you have:
+
+Curator Dockerfile with ssm-env, to fetch secure strings form paramter storage.
+
 
 ## Environment vars needed
 
 RETENTION_DAYS = Curator will delete indexes older than these amount of days. (11 days in dev / 15 days in prod)
-CURATOR_LOGIN = AWS SSM parameter name for the SecureString (sms:///elk/curator/pass) format user:password
 
+CURATOR_LOGIN = user:password or the AWS SSM parameter name (starting with "ssm://") for the SecureString (ssm:///your//path/to/curator/pass)
 
-Curator deletes indices older than X day (configured in action-file.yml in EFS).
+DRYRUN=--dry-run to run in dry mode (no modifications).
 
-Use -e -e DRYRUN=--dry-run to run in dry mode (no modifications)
+Curator deletes indices older than X ($RETENTION_DAYS) day (configured in action-file.yml).
 
-Mount config folder in /curatorcfg to have
+## Custom Configs
+
+Mount your own config folder in /curatorcfg to have
 
 Config file in /curatorcfg/config.yml
 Action file in /curatorcfg/action-file.yml
